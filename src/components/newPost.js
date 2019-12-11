@@ -21,10 +21,13 @@ class NewPost extends Component {
       body: this.state.body
     };
 
-    this.props.createPost(post);
+    this.props.createPost(post).then(res => {
+      this.props.history.push("/posts");
+    });
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <h1>Add new post</h1>
@@ -56,13 +59,11 @@ class NewPost extends Component {
   }
 }
 
-const MapStateToProps = state => {};
-
 const MapDispatchToProps = dispatch => {
   return bindActionCreators(postActions, dispatch);
 };
 
 export default connect(
-  MapStateToProps,
+  null,
   MapDispatchToProps
 )(NewPost);

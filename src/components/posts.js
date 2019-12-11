@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import * as postActions from "../actions/postActions";
+import { Link } from "react-router-dom";
 
 class Posts extends Component {
   componentDidMount() {
@@ -10,7 +11,11 @@ class Posts extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.newPost) {
+    const newPostHasValues =
+      !Object.entries(nextProps.newPost).length === 0 &&
+      nextProps.newPost.constructor === Object;
+
+    if (newPostHasValues) {
       this.props.posts.items.unshift(nextProps.newPost);
     }
   }
@@ -20,9 +25,21 @@ class Posts extends Component {
       <div key={post.id}>
         <h3>{post.title}</h3>
         <p>{post.body}</p>
+        <Link to={`/posts/${post.id}`}>
+          <button>Show</button>
+        </Link>
       </div>
     ));
-    return <div>{postItems}</div>;
+    return (
+      <div>
+        <div>
+          <Link to="/posts/new">
+            <button>Add Post</button>
+          </Link>
+        </div>
+        <div>{postItems}</div>
+      </div>
+    );
   }
 }
 

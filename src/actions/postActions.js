@@ -12,7 +12,7 @@ export const fetch_posts = () => dispatch => {
 };
 
 export const createPost = post => dispatch => {
-  fetch("https://jsonplaceholder.typicode.com/posts", {
+  return fetch("https://jsonplaceholder.typicode.com/posts", {
     method: "POST",
     headers: {
       "content-type": "application/json"
@@ -20,10 +20,11 @@ export const createPost = post => dispatch => {
     body: JSON.stringify(post)
   })
     .then(res => res.json())
-    .then(post =>
+    .then(post => {
       dispatch({
         type: NEW_POST, // from here it goes to reducer which will check for a matching case in switch case statement
         payload: post
-      })
-    );
+      });
+      return post;
+    });
 };
